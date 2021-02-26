@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases</title>
+</head>
+<body>
+    <script>
+
+        class Usuario {
+            constructor(nombre = "", apellido = "", libros = [], mascotas = []) {
+                this.nombre = nombre;
+                this.apellido = apellido;
+                this.libros = libros;
+                this.mascotas = mascotas;
+            }
+
+            getFullName = function () {
+                return ` ${this.nombre} ${this.apellido}`;
+            }
+
+            addMascota = function (mascota) {
+                this.mascotas = [...this.mascotas, mascota];
+            }
+
+            getMascotas = function () {
+                return this.mascotas.length
+            }
+
+            addBook = function (book, autor) {
+                this.libros = [...this.libros, {
+                    "nombre": book,
+                    "autor": autor
+                }]
+            }
+
+            getBooks = function () {
+                return this.libros.map(b => b.nombre)
+            }
+
+
+        }
+
+
+        // Pruebas
+
+
+        let usuario = new Usuario("Elon", "Musk");
+
+        console.log(usuario.getFullName())
+
+        usuario.addMascota("Perro")
+        usuario.addMascota("Gato")
+
+        console.log(usuario.getMascotas())
+
+        usuario.addBook("Fundación", "Isaac")
+        usuario.addBook("El señor de las moscas", "Pepe")
+
+        console.log(usuario.getBooks())
+
+
+    </script>
+</body>
+
+</html>
