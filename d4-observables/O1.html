@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observables</title>
+    <script src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
+</head>
+
+<body>
+
+    <input type="text" id="input" placeholder="Escribir acá">
+
+    <span id="textoInvertido"></span>
+
+</body>
+<script>
+    const { fromEvent } = rxjs;
+    const { map } = rxjs.operators;
+    const { Observable } = rxjs;
+
+
+
+    const input = document.querySelector('#input');
+    const textoInvertido = document.querySelector('#textoInvertido');
+
+    const fromEventModificado = (node, name) => new Observable((observer) => {
+        function handler(event) {
+            const inputValue = event.target.value;
+            const inputModificado = event.target.value.split("").reverse().join("");
+            switch (inputValue) {
+                case 'error':
+                    observer.error(inputModificado);
+                case 'complete':
+                    observer.complete(inputModificado)
+                default:
+                    observer.next(inputModificado)
+            }
+        }
+        node.addEventListener(name, handler);
+        return () => {
+            node.removeEventListener(name, handler);
+        };
+    });
+
+
+    const clicks = fromEventModificado(input, "input");
+
+
+    const suscripcion = clicks.subscribe({
+        next: value => textoInvertido.innerHTML = value,
+        error: err => console.error('Ocurrio un error'),
+        complete: _ => console.log('Se completó la función')
+      }
+    )
+
+    setTimeout(() => {
+        console.log('Se acabó el tiempo')
+        suscripcion.unsubscribe()
+        input.disabled = true;
+        textoInvertido.innerHTML = "";
+    }, 30000);
+
+</script>
+
+</html>
