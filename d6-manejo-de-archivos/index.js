@@ -83,7 +83,7 @@ class Archivo {
 
   await nuevo_archivo.leer();
 
-  await nuevo_archivo.borrar();
+  // await nuevo_archivo.borrar();
 })()
 
 

@@ -1,0 +1,1 @@
+[{"id":1,"title":"Jugo en sobre","price":"13.54","thumbnail":"Url imagen jugo"},{"id":2,"title":"Monitor 24 pulgadas","price":"1000","thumbnail":"Url imagen monitor"},{"id":3,"title":"Taza color rojo","price":"50.12","thumbnail":"Url imagen taza"}]
