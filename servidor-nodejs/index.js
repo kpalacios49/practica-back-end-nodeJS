@@ -1,22 +1,18 @@
+const express = require("express");
 
-const http = require('http');
-const server = http.createServer();
+const app = express();
 
-server.on('request', process);
-server.listen(3000, function() {
-  console.log(`Servidor listo en ${this.address().port}`)
-});
+const router = express.Router();
 
-console.log("Servidor arracado")
+router.get('users', (req , res) => {
+  res.send("hola")
+})
 
-function process(request, response){
+app.use('/v1/api/users', router)
 
-  const obj = {
-    id: Math.floor(Math.random()*10)+1,
-    title: "Producto " + Math.floor(Math.random()*10)+1,
-    price: Math.floor(Math.random()*1000000, 2)/100,    
-    thumbnail: "Foto " + Math.floor(Math.random()*10)+1,
-  }
-  
-  response.end(JSON.stringify(obj))
-}
+app.use('/static', express.static('static'))
+
+
+app.listen( 8080, () =>{
+  console.log("running")
+} )

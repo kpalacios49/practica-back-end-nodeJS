@@ -5,7 +5,7 @@ class Archivo {
 
   constructor(nombre_archivo) {
     this.nombre_archivo = nombre_archivo;
-    fs.promises.writeFile(this.nombre_archivo, "[]");
+    if(!fs.existsSync(this.nombre_archivo)) fs.promises.writeFile(this.nombre_archivo, "[]");
   }
 
   leer(message = { show: true }) {
@@ -77,6 +77,9 @@ class Archivo {
 
   const nuevo_archivo = new Archivo("texto.txt");
 
+  await nuevo_archivo.leer();
+
+
   await nuevo_archivo.guardar(productos[0]);
   await nuevo_archivo.guardar(productos[1]);
   await nuevo_archivo.guardar(productos[2]);
@@ -86,7 +89,3 @@ class Archivo {
   // await nuevo_archivo.borrar();
 })()
 
-
-
-
-// nuevo_archivo.leer();
