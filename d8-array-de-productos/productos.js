@@ -1,4 +1,4 @@
-const { productos } = require("../d8/productos")
+const { productos } = require("./productos_array")
 
 exports.index = function(){
     if(!productos.length) return {error : "no hay productos cargados"}

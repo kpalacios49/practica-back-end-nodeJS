@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }))
 const productos_module = require('./productos')
 
 
+
 app.get("/api/productos",(req, res) => { 
     res.json(productos_module.index())
 })
