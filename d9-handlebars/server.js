@@ -2,9 +2,11 @@ const express = require('express');
 
 const app = express();
 const handlebars = require('express-handlebars')
+const productos_module = require('./productos')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
 app.engine(
     "hbs",
     handlebars({
@@ -20,15 +22,24 @@ app.use(express.static("public"))
 
 
 
+
 app.get("/", (req, res) => {
+    const productos =  productos_module.index();
+    res.render("main", {
+        productos: productos,
+        existenProductos: productos.length > 0
+        })
+})
+
+app.get("/productos", (req, res) => {
     res.render("partials/productos")
 })
 
 
-const productos_module = require('./productos')
+//////////////////// API /////////////////////
 
 
-app.get("/api/productos",(req, res) => { 
+app.get("/api/productos", (req, res) => {
     res.json(productos_module.index())
 })
 
@@ -38,8 +49,9 @@ app.get("/api/productos/:id", (req, res) => {
 
 app.post("/api/productos", (req, res) => {
     res.json(productos_module.store(req.body))
-
 })
+
+
 
 const server = app.listen(8080, () => {
     console.log(`Escuchando en el puerto 8080`)

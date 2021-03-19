@@ -1,1 +1,48 @@
-<p>hola1</p>
+<h1 class="mb-5 text-primary">Ingrese producto</h1>
+
+<form id="form" class="px-2">
+    <label for="nombre" class="form-label text-strong">
+        <strong><i>Nombre</i></strong>
+    </label>
+    <input type="text" name="title" class="form-control" id="nombre">
+
+    <label for="precio" class="form-label text-strong">
+        <strong><i>Precio</i></strong>
+    </label>
+    <input type="text" name="price" class="form-control" id="precio">
+
+    <label for="foto_url" class="form-label text-strong">
+        <strong><i>Foto URL</i></strong>
+    </label>
+    <input type="text" name="thumbnail" class="form-control" id="foto_url">
+
+    <button class="btn btn-success mt-5">Enviar</button>
+</form>
+
+<script>
+    const form = document.getElementById("form")
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+
+        const formData = new FormData(form);
+
+        let json = {};
+        formData.forEach((value, key) => { json[key] = value });
+
+        fetch('/api/productos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json),
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                if (json.status == "ok") {
+                    location.href = "/productos";
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    })
+</script>
