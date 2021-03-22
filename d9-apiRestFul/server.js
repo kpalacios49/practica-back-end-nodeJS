@@ -31,11 +31,12 @@ router.put("/productos/:id", (req, res) => {
 })
 
 router.delete("/productos/:id", (req, res) => {
-    res.json(productos_module.store(req.params.id))
+    res.json(productos_module.destroy(req.params.id))
 })
 
 
 app.use('/api', router)
+app.use('/static', express.static(__dirname + '/static'))
 
 const server = app.listen(8080, () => {
     console.log(`Escuchando en el puerto 8080`)
