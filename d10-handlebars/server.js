@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars')
 const productos_module = require('./productos')
+const router = express.Router()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -39,19 +40,28 @@ app.get("/productos", (req, res) => {
 //////////////////// API /////////////////////
 
 
-app.get("/api/productos", (req, res) => {
+router.get("/productos",(req, res) => { 
     res.json(productos_module.index())
 })
 
-app.get("/api/productos/:id", (req, res) => {
+router.get("/productos/:id", (req, res) => {
     res.json(productos_module.show(req.params.id))
 })
 
-app.post("/api/productos", (req, res) => {
+router.post("/productos", (req, res) => {
     res.json(productos_module.store(req.body))
 })
 
+router.put("/productos/:id", (req, res) => {
+    res.json(productos_module.update(req.params.id, req.body))
+})
 
+router.delete("/productos/:id", (req, res) => {
+    res.json(productos_module.destroy(req.params.id))
+})
+
+
+app.use('/api', router)
 
 const server = app.listen(8080, () => {
     console.log(`Escuchando en el puerto 8080`)

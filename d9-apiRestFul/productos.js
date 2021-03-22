@@ -20,15 +20,13 @@ exports.update = function (id, producto) {
         }
     })
     return producto
-
 }
 
 exports.destroy = function (id) {
 
     const producto_eliminado = productos.filter(p => p.id == id)
-
     const index = productos.findIndex(p => p.id == id)
-
+    
     if (index != -1) productos.splice(index, 1)
 
     return producto_eliminado
@@ -36,7 +34,6 @@ exports.destroy = function (id) {
 
 exports.show = function (id) {
     let producto = productos.filter(e => e.id == id)
-
     if (!producto.length) { producto = { error: "producto no encontrado" } }
 
     return producto
