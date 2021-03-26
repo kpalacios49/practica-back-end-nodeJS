@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+</head>
+
+<body>
+    <div class="min-vh-100 px-3 py-3 m-3 rounded" style="background-color: #e9ecef;">
+
+        <h1 class="mb-5 text-primary">Vista de productos</h1>
+
+        <% if (existenProductos) { %>
+            <table class="table table-dark table-striped">
+                <tr>
+                    <td>Nombre</td>
+                    <td>Precio</td>
+                    <td>Foto</td>
+                </tr>
+                <tbody>
+                    <% productos.forEach(function(producto){ %>
+                        <tr>
+                            <td>
+                                <%= producto.title %>
+                            </td>
+                            <td>
+                                <%= producto.price %>
+                            </td>
+                            <td> <img width="50" src="<%= producto.thumbnail %>" alt=""> </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <% } %>
+
+                <% if (!existenProductos) { %>
+                    <div class="alert alert-warning">No se encontraron productos</div>
+                <% } %>
+
+
+    </div>
+
+</body>
+
+</html>
