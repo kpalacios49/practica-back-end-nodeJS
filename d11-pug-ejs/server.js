@@ -4,24 +4,25 @@ const app = express();
 const handlebars = require('express-handlebars')
 const productos_module = require('./productos')
 const router = express.Router()
+const pug = require('pug')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.engine(
-    "hbs",
-    handlebars({
-        extname: ".hbs",
-        defaultLayout: 'index.hbs',
-        layoutsDir: __dirname + '/views/layouts',
-        partialsDir: __dirname + '/views/partials'
-    })
-)
-app.set("view engine", "hbs")
+// app.engine(
+//     "hbs",
+//     handlebars({
+//         extname: ".hbs",
+//         defaultLayout: 'index.hbs',
+//         layoutsDir: __dirname + '/views/layouts',
+//         partialsDir: __dirname + '/views/partials'
+//     })
+// )
+app.set("view engine", "pug")
+
 app.set("views", "./views")
+
 app.use(express.static("public"))
-
-
 
 
 app.get("/", (req, res) => {
