@@ -48,22 +48,24 @@
 
 
 
-    <div class="min-vh-100 px-3 py-3 m-3 rounded" style="background-color: #e9ecef;">
-        <h1 class="mb-5 text-primary">Centro de mensajes</h1>
+<div class="min-vh-100 px-3 py-3 m-3 rounded" style="background-color: #e9ecef;">
+    <h1 class="mb-5 text-primary">Centro de mensajes</h1>
 
-        <form action="" id="mensajeForm">
+    <form action="" id="mensajeForm">
 
-            <input type="text" name="email" class="form-control">
+        <input type="text" name="email" class="form-control" required>
+        <hr>
+        <div class="my-4" id="contenedorMensajes">
+            <p> <span class="text-primary">pedro@gmail.com</span>[<span class="text-danger">fecha y gorea</span>]<span
+                    class="text-success">mensaje</span></p>
+        </div>
+        <hr>
 
-            <div id="mensajes">
-                <p> <span class="text-primary">pedro@gmail.com</span>[<span class="text-danger">fecha y gorea</span>]<span class="text-success">mensaje</span></p>
+        <input type="text" name="mensaje" class="form-control">
+        <button class="btn btn-primary">Enviar</button>
+    </form>
 
-            </div>
-            <input type="text" name="email" class="form-control">
-            <button class="btn btn-primary">Enviar</button>
-        </form>
-
-    </div>
+</div>
 
 
 
@@ -82,14 +84,30 @@
         tabla_productos.innerHTML = "";
         productos.map(producto => {
             const tr = document.createElement('tr')
-            
+
             tr.innerHTML = `
-            <td>  ${ producto.title }</td>
-            <td> ${ producto.price }</td>
-            <td> <img width="50" src="${ producto.thumbnail }" alt=""> </td>
+            <td>  ${producto.title}</td>
+            <td> ${producto.price}</td>
+            <td> <img width="50" src="${producto.thumbnail}" alt=""> </td>
         `
 
-        tabla_productos.appendChild(tr)
+            tabla_productos.appendChild(tr)
+        })
+
+    })
+
+    const contenedorMensajes = document.getElementById('contenedorMensajes')
+    socket.on('mensajes', (mensajes) => {
+        contenedorMensajes.innerHTML=""
+
+        mensajes.map((mensaje) => {
+            const p = document.createElement("p")
+            p.innerHTML = `
+            <span class="text-primary">${ mensaje.email }</span>[
+            <span class="text-danger">${ mensaje.fecha }</span>]
+            <span class="text-success">${ mensaje.mensaje }</span>
+            `
+            contenedorMensajes.appendChild(p)
         })
 
     })
@@ -121,14 +139,15 @@
             });
     })
 
-        const mensajeForm = document.getElementById("mensajeForm")
+    const mensajeForm = document.getElementById("mensajeForm")
 
     mensajeForm.addEventListener("submit", (e) => {
         e.preventDefault()
-
-      let json = {};
+        let json = {};
+        const formData = new FormData(mensajeForm);
         formData.forEach((value, key) => { json[key] = value });
-        socket.emit("enviarMensaje", JSON.stringify(json))
-
+        json.fecha = new Date()
+        socket.emit("enviarMensaje", json)
+        console.log(json)
     })
 </script>

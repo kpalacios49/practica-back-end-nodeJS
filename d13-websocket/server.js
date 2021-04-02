@@ -8,6 +8,8 @@ const io = require('socket.io')(http, {
     }
   })
 
+const archivo = require('./Archivo')
+
 const handlebars = require('express-handlebars')
 const productos_module = require('./productos')
 const router = express.Router()
@@ -28,7 +30,9 @@ app.set("view engine", "hbs")
 app.set("views", "./views")
 app.use(express.static("public"))
 
+const Archivo =  archivo.Archivo
 
+const mensajes = new Archivo("./mensajes.txt")
 
 
 app.get("/", (req, res) => {
@@ -90,11 +94,26 @@ http.listen(8081, () => {
     console.log(`Escuchando en el puerto 8081`)
 })
 
-io.on('connection', (socket) => {
+
+io.on('connection', async (socket) => {
     console.log("Usuario conectado")
 
-    socket.on('enviarMensaje', (mensaje) => {
-        console.log(mensaje)
+
+
+    console.log(await mensajes.leer({show: false}))
+
+    
+
+    io.emit("mensajes", await mensajes.leer({show: false}))
+
+    socket.on('enviarMensaje', async(mensaje) => {
+
+        await mensajes.guardar(mensaje);
+
+        console.log("emit")
+        io.emit("mensajes", await mensajes.leer({show: false}))
+
     })
+
 
 })
