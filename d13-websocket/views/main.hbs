@@ -1,0 +1,24 @@
+<h1 class="mb-5 text-primary">Vista de productos</h1>
+
+{{#if existenProductos }}
+<table class="table table-dark table-striped">
+    <tr>
+        <td>Nombre</td>
+        <td>Precio</td>
+        <td>Foto</td>
+    </tr>
+    <tbody>
+        {{#each productos}}
+        <tr>
+            <td> {{ this.title }}</td>
+            <td>{{ this.price }}</td>
+            <td> <img width="50" src="{{ this.thumbnail }}" alt=""> </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{/if}}
+
+{{#unless existenProductos }}
+<div class="alert alert-warning">No se encontraron productos</div>
+{{/unless}}
