@@ -2,10 +2,12 @@
 const model = require('../models/products')
 var ObjectId = require('mongodb').ObjectID;
 
+const generator = require('../generators/products')
+
 
 module.exports = {
 
-    index : async function (req, res) {
+    index: async function (req, res) {
         try {
             console.log("Mostrar Productos")
             let products_found = await model.products.find({})
@@ -17,7 +19,7 @@ module.exports = {
         }
     },
 
-    store : async function (req, res) {
+    store: async function (req, res) {
         const product = req.body
 
         try {
@@ -32,7 +34,7 @@ module.exports = {
         }
     },
 
-    update : async function (req, res) {
+    update: async function (req, res) {
         const id = req.params.id
         const product = req.body
 
@@ -48,11 +50,11 @@ module.exports = {
 
     },
 
-    destroy : async function (req, res) {
+    destroy: async function (req, res) {
         const id = req.params.id
         try {
             console.log("Borrar Producto")
-            await model.products.deleteOne({ "_id": ObjectId(`${id}`)})
+            await model.products.deleteOne({ "_id": ObjectId(`${id}`) })
             res.json({ status: "ok" })
         }
         catch (e) {
@@ -61,7 +63,7 @@ module.exports = {
         }
     },
 
-    show : async function (req, res) {
+    show: async function (req, res) {
         const id = req.params.id
 
         try {
@@ -73,6 +75,24 @@ module.exports = {
             console.log(e)
             res.sendStatus(500)
         }
+    },
+
+    test: function (req, res) {
+
+        let cant = req.query.cant || 10
+
+        let product;
+        const products = []
+
+        for (let i = 0; i < cant; i++) {
+            product = generator.get()
+
+            products.push(product)
+
+        }
+
+
+        res.json(products)
     }
 }
 

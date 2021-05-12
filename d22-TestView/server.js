@@ -16,6 +16,9 @@ app.use('/api/productos/', router_product)
 
 app.use('/api/carrito/', router_shopping_cart)
 
+app.get('*', (req, res) => {
+    res.status(404).send("No se encontró la pagina.")
+})
 
 app.listen(process.env.port || 8080, () => {
     console.log("Running on 8080")
