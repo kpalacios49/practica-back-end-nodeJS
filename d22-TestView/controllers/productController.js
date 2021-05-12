@@ -80,17 +80,18 @@ module.exports = {
     test: function (req, res) {
 
         let cant = req.query.cant || 10
-
+        if(cant == 0){
+            res.json({message: "No se encontraron productos"})
+        }
         let product;
         const products = []
 
         for (let i = 0; i < cant; i++) {
             product = generator.get()
-
+            product.id = i + 1
+            product.timestamp = new Date().toLocaleString()
             products.push(product)
-
         }
-
 
         res.json(products)
     }
