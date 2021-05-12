@@ -1,14 +1,11 @@
-const model = require('../../models/shoppingCarts')
-const product_model = require('../../models/products')
+const model = require('../models/shoppingCarts')
+const product_model = require('../models/products')
 var ObjectId = require('mongodb').ObjectID;
 
 
-module.exports = class productController {
+module.exports = {
 
-    constructor(connection) {
-        this.db = connection
-    }
-    index = async function (req, res) {
+    index : async function (req, res) {
         try{
             console.log("Mostrar Carrito de compras")
             let results = await model.shopping_carts.find({})
@@ -19,9 +16,9 @@ module.exports = class productController {
             console.log(e)
             res.sendStatus(500)
         }
-    }
+    },
 
-    store = async function (req, res) {
+    store : async function (req, res) {
 
         const id = req.params.id
 
@@ -47,9 +44,9 @@ module.exports = class productController {
             console.log(e)
             res.sendStatus(500)
         }
-    }
+    },
 
-    destroy = async function (req, res) {
+    destroy : async function (req, res) {
         const id = req.params.id
 
         try{
@@ -64,9 +61,9 @@ module.exports = class productController {
             res.sendStatus(500)
         }
 
-    }
+    },
 
-    show = async function (req, res) {
+    show : async function (req, res) {
         const id = req.params.id
 
         try{

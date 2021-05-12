@@ -2,26 +2,24 @@ const express = require('express')
 
 const { is_admin } = require("../middlewares/is_admin")
 
-const productController = require('../controllers/mongoDB/productController')
+const productController = require('../controllers/productController')
 
-const DBFactory = require('../factories/DBFactory')
+const mongoDB = require('../dbs/MongoDB')
 
-const dbfactory = new DBFactory().initialize("mongodb")
-
-dbfactory.connect(productController)
+const conexion = mongoDB.connect()
 
 const router_product = express.Router()
 
 
-router_product.get("/", dbfactory.index.bind(dbfactory))
+router_product.get("/", productController.index.bind(conexion))
 
-router_product.post("/", is_admin, dbfactory.store.bind(dbfactory))
+router_product.post("/", is_admin, productController.store.bind(conexion))
 
-router_product.put("/:id", is_admin, dbfactory.update.bind(dbfactory))
+router_product.put("/:id", is_admin, productController.update.bind(conexion))
 
-router_product.get("/:id", dbfactory.show.bind(dbfactory))
+router_product.get("/:id", productController.show.bind(conexion))
 
-router_product.delete("/:id", is_admin, dbfactory.destroy.bind(dbfactory))
+router_product.delete("/:id", is_admin, productController.destroy.bind(conexion))
 
 
 module.exports = router_product
